@@ -6,11 +6,14 @@ namespace Framework;
 
 class TemplateEngine
 {
+  private array $globalTemplateData = [];
+
   public function __construct(private string $basePath) {}
 
   public function render(string $template, array $data = [])
   {
     extract($data, EXTR_SKIP); //ekstrahuje tablice z danymi do pojedynczych zmiennych o nazwach kluczy z tablicy asocjacyjnej
+    extract($this->globalTemplateData, EXTR_SKIP);
 
     ob_start(); //otwiera bufor ładowanej strony
 
@@ -22,4 +25,10 @@ class TemplateEngine
 
     return $output;
   }
+
+  public function addGlobal(string $key, mixed $value)
+  {
+    $this->globalTemplateData[$key] = $value;
+  }
+
 }
