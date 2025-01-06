@@ -72,7 +72,7 @@
                   style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: 5rem; --bs-btn-font-size: 1.2rem;">Logowanie</a>
               </div>
               <div class="col-6">
-                <a href="" type="button" class="btn btn-primary"
+                <a href="/registration" type="button" class="btn btn-primary"
                   style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: 5rem; --bs-btn-font-size: 1.2rem;">Rejestracja</a>
               </div>
             </div>
