@@ -68,7 +68,7 @@
 
             <div class="row text-center ">
               <div class="col-6">
-                <a href="" type="button" class="btn btn-success"
+                <a href="/login" type="button" class="btn btn-success"
                   style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: 5rem; --bs-btn-font-size: 1.2rem;">Logowanie</a>
               </div>
               <div class="col-6">
