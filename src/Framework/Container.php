@@ -63,13 +63,12 @@ class Container
       throw new ContainerException("Class {$id} does not exist in container.");
     }
 
-    if(array_key_exists($id, $this->resolved))
-    {
+    if (array_key_exists($id, $this->resolved)) {
       return $this->resolved[$id];
     }
 
     $factory = $this->definitions[$id];
-    $dependency = $factory();
+    $dependency = $factory($this);
 
     $this->resolved[$id] = $dependency;
 
