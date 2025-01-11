@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
     rel="stylesheet">
 
-  <title>RegistrationPage</title>
+  <title>Registration Page</title>
 </head>
 
 <body>
@@ -74,7 +74,7 @@
               <?php if (array_key_exists('email', $errors)) : ?>
                 <div class="col errors text-center ">
                   <p style="color:red">
-                    <?php echo e($errors['email'][0]); ?>
+                    <?php echo e($errors['email']); ?>
                   </p>
                 </div>
               <?php endif; ?>
@@ -123,7 +123,7 @@
       </div>
 
     </article>
-    
+
 
   </main>
 

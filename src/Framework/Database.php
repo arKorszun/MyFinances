@@ -13,13 +13,15 @@ class Database
 
 
   public function __construct(string $driver, array $config, string $username, string $password)
-  {    
+  {
     $config = http_build_query(data: $config, arg_separator: ';');
 
     $dsn = "{$driver}:{$config}";
-    
+
     try {
-      $this->connection = new PDO($dsn, $username, $password);
+      $this->connection = new PDO($dsn, $username, $password, [
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+      ]);
     } catch (PDOException $e) {
       die("Unable to connect to database");
     }
@@ -39,4 +41,13 @@ class Database
     return $this->stmt->fetchColumn();
   }
 
+  public function find()
+  {
+    return $this->stmt->fetch();
+  }
+
+  public function id()
+  {
+    return $this->connection->lastInsertId();
+  }
 }

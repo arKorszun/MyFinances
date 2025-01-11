@@ -2,6 +2,11 @@ body {
   background-color: whitesmoke;
 }
 
+.errors {
+  color:red;
+  font-size: 0.9rem;
+}
+
 #site {
   background-image: url("/assets/img/background.jpg");
   background-size: cover;

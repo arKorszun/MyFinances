@@ -51,16 +51,23 @@
                 <h1 class="h4 mt-2 fw-normal">Logowanie</h1>
               </div>
             </div>
-            <form action="log_In.php" method="POST">
+            <form method="POST">
               <div class="row justify-content-center">
                 <div class="col-9 pt-4">
                   <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1"><img src="/assets/img/envelope-at.svg"
                         alt="envelope icon"></span>
-                    <input type="email" class="form-control input-place" placeholder="Email" aria-label="Email" name="email">
+                    <input value="<?php echo e($oldFormData['email'] ?? '') ?>" type="email" class="form-control input-place" placeholder="Email" aria-label="Email" name="email">
                   </div>
                 </div>
               </div>
+              <?php if (array_key_exists('email', $errors)) : ?>
+                <div class="col errors text-center ">
+                  <p style="color:red">
+                    <?php echo e($errors['email'][0]); ?>
+                  </p>
+                </div>
+              <?php endif; ?>
               <div class="row justify-content-center">
                 <div class="col-9 ">
                   <div class="input-group mb-3">
@@ -69,6 +76,13 @@
                   </div>
                 </div>
               </div>
+              <?php if (array_key_exists('password', $errors)) : ?>
+                <div class="col errors text-center ">
+                  <p style="color:red">
+                    <?php echo e($errors['password'][0]); ?>
+                  </p>
+                </div>
+              <?php endif; ?>
               <div class="row">
                 <div class="col pb-3 text-center">
                   <button type="submit" class="btn btn-success"
@@ -79,7 +93,7 @@
             <div class="row">
               <div class="col pb-3 text-center">
                 <?php
-                
+
                 ?>
               </div>
             </div>
