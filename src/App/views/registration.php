@@ -44,6 +44,7 @@
               </div>
             </div>
             <form method="POST">
+            <?php include $this->resolve('partials/_csrf.php'); ?>
               <div class="row justify-content-center ">
                 <div class="col-9 pt-4">
                   <div class="input-group mb-3">

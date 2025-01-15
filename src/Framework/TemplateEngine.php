@@ -17,13 +17,18 @@ class TemplateEngine
 
     ob_start(); //otwiera bufor ładowanej strony
 
-    include "{$this->basePath}/{$template}";
+    include $this->resolve($template);
 
     $output = ob_get_contents();
 
     ob_end_clean();
 
     return $output;
+  }
+
+  public function resolve(string $path)
+  {
+    return"{$this->basePath}/{$path}";
   }
 
   public function addGlobal(string $key, mixed $value)
