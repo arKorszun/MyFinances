@@ -75,7 +75,7 @@
               <?php if (array_key_exists('email', $errors)) : ?>
                 <div class="col errors text-center ">
                   <p style="color:red">
-                    <?php echo e($errors['email']); ?>
+                    <?php echo e($errors['email'][0]); ?>
                   </p>
                 </div>
               <?php endif; ?>

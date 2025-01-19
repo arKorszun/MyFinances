@@ -12,7 +12,8 @@ class TransactionController
   public function __construct(
     private TemplateEngine $view,
     private ValidatorService $validatorService,
-    private TransactionService $transactionService
+    private TransactionService $transactionService, 
+    
   ) {}
 
   public function addExpenseView()
@@ -41,4 +42,29 @@ class TransactionController
     
     redirectTo('/welcome');
   }
+  public function balanceView()
+  {
+    //$this->validatorService->validateBalanceDates($_POST);
+    $transactions = $this->getUserTransactions();
+    echo $this->view->render("transactions/balance.php", [
+      'transactions' => $transactions
+    ]);
+  }
+
+  public function getUserTransactions()
+  {
+    $expenses = $this->transactionService->getUserExpenses($_POST);
+    $incomes = $this->transactionService->getUserIncomes($_POST);
+    $incomesCatSum = $this->transactionService->getUserIncomesCatSum($_POST);
+    $expensesCatSum = $this->transactionService->getUserExpensesCatSum($_POST);
+    $transactions = [
+      'incomes' => $incomes,
+      'expenses' => $expenses,
+      'incomesCatSum' => $incomesCatSum,
+      'expensesCatSum' => $expensesCatSum
+    ];
+    
+    return $transactions;
+  }
+
 }

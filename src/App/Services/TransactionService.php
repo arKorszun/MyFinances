@@ -14,7 +14,7 @@ class TransactionService
   private function getExpenseCategoryId(array $formData)
   {
     $logged_user_id = $_SESSION['user'];
-    $expense_category = $formData['expense_category'];      
+    $expense_category = $formData['expense_category'];
 
     $expenseCategoryId = $this->db->query(
       "SELECT id FROM expenses_category_assigned_to_users WHERE expenses_category_assigned_to_users.user_id = :logged_user_id AND expenses_category_assigned_to_users.name = :expense_category",
@@ -23,7 +23,7 @@ class TransactionService
         'expense_category' => $expense_category
       ]
     )->find();
-    
+
     return $expenseCategoryId['id'];
   }
 
@@ -39,7 +39,7 @@ class TransactionService
         'payment_method' => $payment_method
       ]
     )->find();
-    
+
     return $paymentMethodId['id'];
   }
 
@@ -67,7 +67,7 @@ class TransactionService
   private function getIncomeCategoryId(array $formData)
   {
     $logged_user_id = $_SESSION['user'];
-    $income_category = $formData['income_category'];      
+    $income_category = $formData['income_category'];
 
     $incomeCategoryId = $this->db->query(
       "SELECT id FROM incomes_category_assigned_to_users WHERE incomes_category_assigned_to_users.user_id = :logged_user_id AND incomes_category_assigned_to_users.name = :income_category",
@@ -76,19 +76,19 @@ class TransactionService
         'income_category' => $income_category
       ]
     )->find();
-    
+
     return $incomeCategoryId['id'];
   }
 
   public function addIncome(array $formData)
   {
     $income_category_id = $this->getIncomeCategoryId($formData);
-   
+
     $this->db->query(
       "INSERT INTO incomes VALUES(NULL, :user_id, :income_category_id, :income_amount, :income_date, :income_comment)",
       [
         'user_id' => $_SESSION['user'],
-        'income_category_id' => $income_category_id,    
+        'income_category_id' => $income_category_id,
         'income_amount' => $formData['income_amount'],
         'income_date' => $formData['income_date'],
         'income_comment' => $formData['income_comment']
@@ -98,10 +98,106 @@ class TransactionService
     $_SESSION['succesAdd'] = true;
   }
 
-  public function getUserExpenses()
+  private function getBalancePeriod(array $formData)
   {
+      if (isset($formData['previous_month'])) {
+      $year = date("Y");
+      $month = date("m") - 1;
+
+      if ($month < 1) {
+        $month = 12;
+        $year -= 1;
+      }
+
+      $day =  date("t", mktime(0, 0, 0, $month, 1, $year));
+
+      $end_date = date("$year-$month-$day");
+      $start_date = date("$year-$month-01");
+    } else if (isset($formData['current_year'])) {
+
+      $end_date = date("Y-m-d");
+      $start_date = date("Y-01-01");
+    } else if (isset($formData['custom_period'])) {
+
+      $end_date = $formData['custom_date_end'];
+      $start_date = $formData['custom_date_start'];
+    } else {
+      $end_date = date("Y-m-d");
+      $start_date = date("Y-m-01");
+    }
+    $dates = [$start_date, $end_date];
+    return $dates;
+  }
+
+  public function getUserExpenses(array $formData)
+  {
+    $dates = $this->getBalancePeriod($formData);
+    $start_date = $dates['0'];
+    $end_date = $dates['1'];
+    
     $expenses = $this->db->query(
-      "",[]
-    );
+      "SELECT expenses.amount, expenses.date_of_expense, expenses.expense_comment , expenses_category_assigned_to_users.name AS expense_category_name, payment_methods_assigned_to_users.name AS payment_method FROM expenses INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id=expenses_category_assigned_to_users.id INNER JOIN payment_methods_assigned_to_users ON payment_methods_assigned_to_users.id=expenses.payment_method_assigned_to_user_id WHERE expenses.user_id = :user_id AND expenses.date_of_expense BETWEEN :start_date AND :end_date ORDER BY expenses.date_of_expense DESC ",
+      [
+        'user_id' => $_SESSION['user'],
+        'start_date' => $start_date,
+        'end_date' => $end_date
+      ]
+    )->findAll();
+
+    return $expenses;
+  }
+
+  public function getUserIncomes(array $formData)
+  {
+    $dates = $this->getBalancePeriod($formData);
+    $start_date = $dates['0'];
+    $end_date = $dates['1'];
+    
+    $incomes = $this->db->query(
+      "SELECT incomes.amount, incomes.date_of_income, incomes.income_comment , incomes_category_assigned_to_users.name AS category_name  FROM incomes INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id=incomes_category_assigned_to_users.id WHERE incomes.user_id = :user_id AND incomes.date_of_income BETWEEN :start_date AND :end_date ORDER BY incomes.date_of_income DESC ",
+      [
+        'user_id' => $_SESSION['user'],
+        'start_date' => $start_date,
+        'end_date' => $end_date
+      ]
+    )->findAll();
+
+    return $incomes;
+  }
+
+  public function getUserIncomesCatSum(array $formData)
+  {
+    $dates = $this->getBalancePeriod($formData);
+    $start_date = $dates['0'];
+    $end_date = $dates['1'];
+    
+    $incomesCatSum = $this->db->query(
+      "SELECT incomes_category_assigned_to_users.name, SUM(incomes.amount) AS category_sum FROM incomes_category_assigned_to_users INNER JOIN incomes ON incomes.income_category_assigned_to_user_id=incomes_category_assigned_to_users.id WHERE incomes.user_id = :user_id AND incomes.date_of_income BETWEEN :start_date AND :end_date GROUP BY incomes_category_assigned_to_users.name ORDER BY category_sum DESC",
+      [
+        'user_id' => $_SESSION['user'],
+        'start_date' => $start_date,
+        'end_date' => $end_date
+      ]
+    )->findAll();
+
+    return $incomesCatSum;
+  }
+
+  public function getUserExpensesCatSum(array $formData)
+  {
+    $dates = $this->getBalancePeriod($formData);
+    $start_date = $dates['0'];
+    $end_date = $dates['1'];
+    
+    $expensesCatSum = $this->db->query(
+      "SELECT expenses_category_assigned_to_users.name, SUM(expenses.amount) AS category_sum FROM expenses_category_assigned_to_users INNER JOIN expenses ON expenses.expense_category_assigned_to_user_id=expenses_category_assigned_to_users.id WHERE expenses.user_id = :user_id AND expenses.date_of_expense BETWEEN :start_date AND :end_date GROUP BY expenses_category_assigned_to_users.name ORDER BY category_sum DESC",
+      [
+        'user_id' => $_SESSION['user'],
+        'start_date' => $start_date,
+        'end_date' => $end_date
+      ]
+    )->findAll();
+
+    return $expensesCatSum;
   }
 }
