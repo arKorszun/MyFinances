@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use Framework\TemplateEngine;
-use App\Config\Paths;
+
 
 class HomeController
 {
@@ -17,11 +17,11 @@ class HomeController
   }
   public function home()
   {
-    echo $this->view->render("/index.php", ['title' => 'Home Page']);
+    echo $this->view->render("/index.php");
   }
 
   public function welcome()
   {
-    echo $this->view->render("/welcome.php", ['title' => 'Welcome Page']);
+    echo $this->view->render("/welcome.php");
   }
 }

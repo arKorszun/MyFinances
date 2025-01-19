@@ -14,7 +14,7 @@ class AuthController
   public function __construct(private TemplateEngine $view, private ValidatorService $validatorService, private UserService $userService) {}
   public function registration()
   {
-    echo $this->view->render("/registration.php", ['title' => 'Registration Page']);
+    echo $this->view->render("/registration.php");
   }
 
   public function register()
@@ -30,7 +30,7 @@ class AuthController
 
   public function loginView()
   {
-    echo $this->view->render("/login.php", ['title' => 'Login Page']);
+    echo $this->view->render("/login.php");
   }
 
   public function login()

@@ -50,7 +50,7 @@
                     alt="cart icon">Dodaj Wydatek</a>
               </li>
               <li class="nav-item">
-                <a role="button" href="/bilans" class="btn btn-outline-secondary px-3"><img src="/assets/img/clipboard-data.svg"
+                <a role="button" href="/balance" class="btn btn-outline-secondary px-3"><img src="/assets/img/clipboard-data.svg"
                     alt="clipbord icon">Przeglądaj Bilans</a>
               </li>
               <li class="nav-item">

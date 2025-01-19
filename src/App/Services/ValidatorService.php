@@ -15,7 +15,9 @@ use Framework\Rules\{
   AlfanumericRule,
   InRule,
   NumericRule,
-  DateFormatRule
+  DateFormatRule,
+  DateRangeMaxRule,
+  EndStartDateRule
 };
 
 class ValidatorService
@@ -35,6 +37,8 @@ class ValidatorService
     $this->validator->add('alfanum', new AlfanumericRule());
     $this->validator->add('numeric', new NumericRule());
     $this->validator->add('dateFormat', new DateFormatRule());
+    //$this->validator->add('dateMax', new DateRangeMaxRule());
+    //$this->validator->add('dateRange', new EndStartDateRule());
     //$this->validator->add('min', new MinRule());
   }
 
@@ -72,8 +76,6 @@ class ValidatorService
   }
   public function validateIncome(array $formData)
   {
-    
-
 
     $this->validator->validate($formData, [
       'income_amount' => ['required', 'numeric'],
@@ -83,4 +85,13 @@ class ValidatorService
 
     ]);
   }
+  /*public function validateBalanceDates(array $formData) 
+  {
+    $endDate = $formData['custom_date_end'];
+
+    $this->validator->validate($formData,[
+      'custom_date_start' => ['dateMax', 'dateRange:$endDate'],
+      'custom_date_end' => []
+    ]);
+  }*/
 }
