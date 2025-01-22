@@ -98,7 +98,7 @@
                     <?php echo e($errors['expense_amount'][0]); ?>
                   </p>
                 </div>
-              <?php endif; ?>              
+              <?php endif; ?>
               <div class="row justify-content-center">
                 <div class="col-9">
                   <div class="input-group mb-3">
@@ -115,7 +115,7 @@
                     <?php echo e($errors['expense_date'][0]); ?>
                   </p>
                 </div>
-              <?php endif; ?>  
+              <?php endif; ?>
               <div class="row justify-content-center">
                 <div class="col-9 ">
                   <div class="input-group mb-3 flex-nowrap">
@@ -125,9 +125,14 @@
                     </div>
                     <select class="custom-select " id="payment-method" name="payment_method">
                       <option selected>Sposób płatności</option>
-                      <option value="Karta płatnicza">Karta płatnicza</option>
-                      <option value="Gotówka">Gotówka</option>
-                      <option value="Karta kredytowa">Karta kredytowa</option>
+                      <?php 
+                      extract($expensesAttributes);
+                      foreach ($paymentMethods as $method) : ?>
+
+                        <option value="<?php echo e($method['payment_methode']); ?>"><?php echo e($method['payment_methode']); ?></option>
+
+                      <?php endforeach; ?>
+                      
                     </select>
                   </div>
                 </div>
@@ -138,7 +143,7 @@
                     <?php echo e($errors['payment_method'][0]); ?>
                   </p>
                 </div>
-              <?php endif; ?>  
+              <?php endif; ?>
               <div class="row justify-content-center">
                 <div class="col-9 ">
                   <div class="input-group mb-3 flex-nowrap">
@@ -148,22 +153,12 @@
                     </div>
                     <select class="custom-select " id="expense-category" name="expense_category">
                       <option selected>Kategoria wydatku</option>
-                      <option value="Jedzenie">Jedzenie</option>
-                      <option value="Paliwo">Paliwo</option>
-                      <option value="Komunikacja miejska">Komunikacja miejska</option>
-                      <option value="Taxi">Taxi</option>
-                      <option value="Rozrywka">Rozrywka</option>
-                      <option value="Zdrowie">Zdrowie</option>
-                      <option value="Ubrania">Ubrania</option>
-                      <option value="Art.higieniczne">Art.higieniczne</option>
-                      <option value="Dzieci">Dzieci</option>
-                      <option value="Wypoczynek">Wypoczynek</option>
-                      <option value="Podróże">Podróże</option>
-                      <option value="Oszczędności">Oszczędności</option>
-                      <option value="Emerytura">Emerytura</option>
-                      <option value="Spłata długów">Spłata długów</option>
-                      <option value="Prezenty">Prezenty</option>
-                      <option value="Inne">Inne</option>
+                      <?php foreach ($expensesCategories as $category) : ?>
+
+                        <option value="<?php echo e($category['category_name']); ?>"><?php echo e($category['category_name']); ?></option>
+
+                      <?php endforeach; ?>
+
                     </select>
                   </div>
                 </div>

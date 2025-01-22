@@ -60,27 +60,34 @@ class ValidatorService
     ]);
   }
 
-  public function validateExpense(array $formData)
+  public function validateExpense(array $formData, array $expensesCategories, array $paymentMethods)
   {
-    $expensesCategories = [];
+    
+    $categories = implode(",", $expensesCategories);
+    $inCategory = 'in:'. $categories;
+
+    $methods = implode(",", $paymentMethods);
+    $inMethod = 'in:'. $methods;
 
 
     $this->validator->validate($formData, [
       'expense_amount' => ['required', 'numeric'],
       'expense_date' => ['required', 'dateFormat:Y-m-d'],
-      'payment_method' => ['required', 'in:Karta płatnicza,Gotówka'],
-      'expense_category' => ['required', 'in:Jedzenie,Paliwo'],
+      'payment_method' => ['required', $inMethod],
+      'expense_category' => ['required', $inCategory],
       'expense_comment' => ['lengthMax:100']
 
     ]);
   }
-  public function validateIncome(array $formData)
+  public function validateIncome(array $formData, array $incomesCategories)
   {
-
+    $categories = implode(",", $incomesCategories);
+    $inCategory = 'in:'. $categories;
+    
     $this->validator->validate($formData, [
       'income_amount' => ['required', 'numeric'],
       'income_date' => ['required', 'dateFormat:Y-m-d'],
-      'income_category' => ['required', 'in:Wynagrodzenie,Odsetki bankowe'],
+      'income_category' => ['required', $inCategory ],
       'income_comment' => ['lengthMax:100']
 
     ]);

@@ -126,10 +126,12 @@
                     </div>
                     <select class="custom-select " id="income-category" name="income_category">
                       <option selected>Wybierz przychód</option>
-                      <option value="Wynagrodzenie">Wynagrodzenie</option>
-                      <option value="Odsetki bankowe">Odsetki bankowe</option>
-                      <option value="Sprzedaż na Allegro">Sprzedaż na Allegro</option>
-                      <option value="Inne">Inne</option>
+                      <?php foreach ($incomesCategories as $category) : ?>
+
+                      <option value="<?php echo e($category['category_name']); ?>"><?php echo e($category['category_name']); ?></option>
+
+                      <?php endforeach; ?>
+                      
                     </select>
                   </div>
                 </div>

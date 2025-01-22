@@ -12,59 +12,71 @@ class TransactionController
   public function __construct(
     private TemplateEngine $view,
     private ValidatorService $validatorService,
-    private TransactionService $transactionService, 
-    
+    private TransactionService $transactionService,
+
   ) {}
 
   public function addExpenseView()
   {
-    echo $this->view->render("transactions/addExpense.php");
+    $expensesAttributes = $this->transactionService->getUserExpensesAttributes();
+    echo $this->view->render("transactions/addExpense.php",[
+      'expensesAttributes' => $expensesAttributes
+    ]);
   }
 
   public function addExpense()
-  {
-    $this->validatorService->validateExpense($_POST);
+  {   
+    $expensesCategories = $this->transactionService->getExpensesCatArray();    
+    $paymentMethods = $this->transactionService->getPaymentMetArray();
+   
+    $this->validatorService->validateExpense($_POST, $expensesCategories, $paymentMethods);
 
     $this->transactionService->addExpense($_POST);
-    
+
     redirectTo('/welcome');
   }
   public function addIncomeView()
   {
-    echo $this->view->render("transactions/addIncome.php");
+    $incomesCategories = $this->transactionService->getUserIncomesCategories();
+    echo $this->view->render("transactions/addIncome.php", [
+      'incomesCategories' => $incomesCategories
+    ]);
   }
 
   public function addIncome()
   {
-    $this->validatorService->validateIncome($_POST);
+    $incomesCategories = $this->transactionService->getIncomesCatArray();     
+    
+    $this->validatorService->validateIncome($_POST, $incomesCategories);
 
     $this->transactionService->addIncome($_POST);
-    
+
     redirectTo('/welcome');
   }
+
   public function balanceView()
   {
     //$this->validatorService->validateBalanceDates($_POST);
     $transactions = $this->getUserTransactions();
     echo $this->view->render("transactions/balance.php", [
       'transactions' => $transactions
-    ]);
+    ]);    
   }
 
   public function getUserTransactions()
   {
-    $expenses = $this->transactionService->getUserExpenses($_POST);
-    $incomes = $this->transactionService->getUserIncomes($_POST);
-    $incomesCatSum = $this->transactionService->getUserIncomesCatSum($_POST);
-    $expensesCatSum = $this->transactionService->getUserExpensesCatSum($_POST);
+    $dates = $this->transactionService->getBalancePeriod();
+    $expenses = $this->transactionService->getUserExpenses($dates);
+    $incomes = $this->transactionService->getUserIncomes($dates);
+    $incomesCatSum = $this->transactionService->getUserIncomesCatSum($dates);
+    $expensesCatSum = $this->transactionService->getUserExpensesCatSum($dates);
     $transactions = [
       'incomes' => $incomes,
       'expenses' => $expenses,
       'incomesCatSum' => $incomesCatSum,
       'expensesCatSum' => $expensesCatSum
     ];
-    
+
     return $transactions;
   }
-
 }

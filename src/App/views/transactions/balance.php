@@ -78,8 +78,7 @@
     <section class="date-modal">
       <div class="modal fade bd-modal-md" tabindex="-1" role="dialog" aria-labelledby="date-modal" aria-hidden="true">
         <div class="modal-dialog modal-md">
-          <form method="POST">
-            <?php include $this->resolve('partials/_csrf.php'); ?>
+          <form method="GET">            
             <div class="modal-content px-4 py-2">
               <h3 class="modal-header">Wybierz zakres dat</h3>
               <div class="input-group mb-3">
@@ -109,12 +108,11 @@
                 aria-expanded="false">
                 Wybierz Okres
               </button>
-              <form method="POST">
-                <?php include $this->resolve('partials/_csrf.php'); ?>
+              <form method="GET">                
                 <ul class="dropdown-menu">
-                  <li><button class="dropdown-item" type="submit" value="1" name="current_month">Bieżący miesiąc</button></li>
-                  <li><button class="dropdown-item" value="1" name="previous_month" type="submit">Poprzedni miesiąc</button></li>
-                  <li><button class="dropdown-item" type="submit" value="1" name="current_year">Bieżący rok</button></li>
+                  <li><button class="dropdown-item" type="submit" name="current_month">Bieżący miesiąc</button></li>
+                  <li><button class="dropdown-item" name="previous_month" type="submit">Poprzedni miesiąc</button></li>
+                  <li><button class="dropdown-item" type="submit" name="current_year">Bieżący rok</button></li>
                   <li><a class="dropdown-item" id="modal-item" href="#" data-bs-toggle="modal"
                       data-bs-target=".bd-modal-md">Niestandardowy</a>
                   </li>
@@ -295,10 +293,14 @@
                         echo '<span class="balance-difference">' . $summar_balance .
                           ' PLN</span> </h3>';
                         echo '<p class="balance-feedback" style="color:green">Gratulacje. Świetnie zarządzasz finansami!</p>';
-                      } else {
+                      } else if($summar_balance < 0){
                         echo '<span class="balance-difference" style="color:red">' . $summar_balance .
                           ' PLN</span> </h3>';
                         echo '<p class="balance-feedback" style="color:red">Uważaj! Twoje wydatki przerosły dochody! </p>';
+                      } else {
+                        echo '<span class="balance-difference">' . $summar_balance .
+                          ' PLN</span> </h3>';
+                        echo '<p class="balance-feedback" > Brak transakcji we wskazanym okresie </p>';
                       }
                     
                     ?>
