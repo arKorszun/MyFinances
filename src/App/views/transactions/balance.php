@@ -58,7 +58,7 @@
                     src="/assets/img/clipboard-data.svg" alt="clipbord icon">Przeglądaj Bilans</a>
               </li>
               <li class="nav-item">
-                <a role="button" class="btn btn-outline-secondary px-3"><img src="/assets/img/tools.svg"
+                <a role="button" href="/settings" class="btn btn-outline-secondary px-3"><img src="/assets/img/tools.svg"
                     alt="tools icon">Ustawienia</a>
               </li>
               <li class="nav-item">
@@ -143,11 +143,12 @@
                           <?php
                           $total_incomes_sum = 0;
                           extract($transactions);
+                          $row = 1;
 
                           foreach ($incomesCatSum as $incomesSum) :
                           ?>
                             <tr>
-                              <th scope="row"><?php $row = 1;
+                              <th scope="row"><?php 
                                               echo $row;
                                               $row++; ?></th>
                               <td> <?php echo e($incomesSum['name']); ?> </td>
@@ -185,11 +186,12 @@
                         <tbody>
                           <?php
                           $total_expenses_sum = 0;
+                          $row = 1;
 
                           foreach ($expensesCatSum as $expensesSum) :
                           ?>
                             <tr>
-                              <th scope="row"><?php $row = 1;
+                              <th scope="row"><?php 
                                               echo $row;
                                               $row++; ?></th>
                               <td> <?php echo e($expensesSum['name']); ?> </td>
@@ -225,9 +227,11 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <?php foreach ($incomes as $income) : ?>
+                          <?php
+                          $row = 1; 
+                          foreach ($incomes as $income) : ?>
                             <tr>
-                              <th scope="row"><?php $row = 1;
+                              <th scope="row"><?php 
                                               echo $row;
                                               $row++; ?></th>
                               <td> <?php echo e($income['date_of_income']); ?> </td>
@@ -240,6 +244,7 @@
                           <?php endforeach; ?>
                         </tbody>
                       </table>
+                      
                     </div>
                   </div>
                   <div class="col-md-12">
@@ -260,9 +265,11 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <?php foreach ($expenses as $expense) : ?>
+                          <?php 
+                          $row = 1;
+                          foreach ($expenses as $expense) : ?>
                             <tr>
-                              <th scope="row"><?php $row = 1;
+                              <th scope="row"><?php 
                                               echo $row;
                                               $row++; ?></th>
                               <td> <?php echo e($expense['date_of_expense']); ?> </td>

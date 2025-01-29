@@ -26,7 +26,7 @@
     <nav class="navbar navbar-expand " aria-label="Second navbar example">
       <div class="container-fluid main-navbar align-items-end ">
         <div class="navbar-brand col-8 px-5 align-bottom">
-          <a class="navbar-brand" id="logo" href="index.php"><img class="coin" src="/assets/img/piggy-bank.svg" alt="coin icon">
+          <a class="navbar-brand" id="logo" href="/"><img class="coin" src="/assets/img/piggy-bank.svg" alt="coin icon">
             MyFinances</a>
         </div>
         <div class="collapse navbar-collapse col-4 pb-3 ">

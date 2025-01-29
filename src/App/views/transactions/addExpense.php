@@ -54,7 +54,7 @@
                     alt="clipbord icon">Przeglądaj Bilans</a>
               </li>
               <li class="nav-item">
-                <a role="button" class="btn btn-outline-secondary px-3"><img src="/assets/img/tools.svg"
+                <a role="button" href="/settings" class="btn btn-outline-secondary px-3"><img src="/assets/img/tools.svg"
                     alt="tools icon">Ustawienia</a>
               </li>
               <li class="nav-item">

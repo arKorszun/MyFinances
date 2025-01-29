@@ -138,7 +138,12 @@ class TransactionService
     $end_date = $dates['1'];
 
     $expenses = $this->db->query(
-      "SELECT expenses.amount, expenses.date_of_expense, expenses.expense_comment , expenses_category_assigned_to_users.name AS expense_category_name, payment_methods_assigned_to_users.name AS payment_method FROM expenses INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id=expenses_category_assigned_to_users.id INNER JOIN payment_methods_assigned_to_users ON payment_methods_assigned_to_users.id=expenses.payment_method_assigned_to_user_id WHERE expenses.user_id = :user_id AND expenses.date_of_expense BETWEEN :start_date AND :end_date ORDER BY expenses.date_of_expense DESC ",
+      "SELECT expenses.amount, expenses.date_of_expense, expenses.expense_comment , expenses_category_assigned_to_users.name AS expense_category_name, payment_methods_assigned_to_users.name AS payment_method 
+      FROM expenses 
+      INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id=expenses_category_assigned_to_users.id
+      INNER JOIN payment_methods_assigned_to_users ON payment_methods_assigned_to_users.id=expenses.payment_method_assigned_to_user_id 
+      WHERE expenses.user_id = :user_id AND expenses.date_of_expense BETWEEN :start_date AND :end_date 
+      ORDER BY expenses.date_of_expense DESC ",
       [
         'user_id' => $_SESSION['user'],
         'start_date' => $start_date,
@@ -155,7 +160,11 @@ class TransactionService
     $end_date = $dates['1'];
 
     $incomes = $this->db->query(
-      "SELECT incomes.amount, incomes.date_of_income, incomes.income_comment , incomes_category_assigned_to_users.name AS category_name  FROM incomes INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id=incomes_category_assigned_to_users.id WHERE incomes.user_id = :user_id AND incomes.date_of_income BETWEEN :start_date AND :end_date ORDER BY incomes.date_of_income DESC ",
+      "SELECT incomes.amount, incomes.date_of_income, incomes.income_comment , incomes_category_assigned_to_users.name AS category_name
+      FROM incomes 
+      INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id=incomes_category_assigned_to_users.id
+      WHERE incomes.user_id = :user_id AND incomes.date_of_income BETWEEN :start_date AND :end_date 
+      ORDER BY incomes.date_of_income DESC ",
       [
         'user_id' => $_SESSION['user'],
         'start_date' => $start_date,
@@ -238,8 +247,7 @@ class TransactionService
   {
     $expensesCategoriesAssoc = $this->getUserExpensesCategories();
     $expensesCategories = [];
-    foreach ($expensesCategoriesAssoc as $category)
-    {
+    foreach ($expensesCategoriesAssoc as $category) {
       array_push($expensesCategories, $category['category_name']);
     }
 
@@ -262,8 +270,7 @@ class TransactionService
   {
     $paymentMethodsAssoc = $this->getUserPaymentMethods();
     $paymentMethods = [];
-    foreach ($paymentMethodsAssoc as $method)
-    {
+    foreach ($paymentMethodsAssoc as $method) {
       array_push($paymentMethods, $method['payment_methode']);
     }
 
@@ -271,14 +278,13 @@ class TransactionService
   }
 
   public function getUserExpensesAttributes()
-    {
-      $expensesCategories = $this->getUserExpensesCategories();
-      $paymentMethods = $this->getUserPaymentMethods();
-      $expensesAttributes = [
-        'expensesCategories' => $expensesCategories,
-        'paymentMethods' => $paymentMethods
-      ];
-      return $expensesAttributes;
-    }
-  
+  {
+    $expensesCategories = $this->getUserExpensesCategories();
+    $paymentMethods = $this->getUserPaymentMethods();
+    $expensesAttributes = [
+      'expensesCategories' => $expensesCategories,
+      'paymentMethods' => $paymentMethods
+    ];
+    return $expensesAttributes;
+  }
 }

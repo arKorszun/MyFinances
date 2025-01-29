@@ -56,7 +56,6 @@ class TransactionController
 
   public function balanceView()
   {
-    //$this->validatorService->validateBalanceDates($_POST);
     $transactions = $this->getUserTransactions();
     echo $this->view->render("transactions/balance.php", [
       'transactions' => $transactions
