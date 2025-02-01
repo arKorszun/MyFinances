@@ -108,7 +108,7 @@ class TransactionService
         $year -= 1;
       }
 
-      $day =  date("t", mktime(0, 0, 0, $month, 1, $year));
+      $day =  date("t", mktime(0, 0, 0, (int) $month, 1, (int) $year));
 
       $end_date = date("$year-$month-$day");
       $start_date = date("$year-$month-01");
@@ -138,7 +138,7 @@ class TransactionService
     $end_date = $dates['1'];
 
     $expenses = $this->db->query(
-      "SELECT expenses.amount, expenses.date_of_expense, expenses.expense_comment , expenses_category_assigned_to_users.name AS expense_category_name, payment_methods_assigned_to_users.name AS payment_method 
+      "SELECT expenses.id, expenses.amount, expenses.date_of_expense, expenses.expense_comment , expenses_category_assigned_to_users.name AS expense_category_name, payment_methods_assigned_to_users.name AS payment_method 
       FROM expenses 
       INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id=expenses_category_assigned_to_users.id
       INNER JOIN payment_methods_assigned_to_users ON payment_methods_assigned_to_users.id=expenses.payment_method_assigned_to_user_id 
@@ -160,7 +160,7 @@ class TransactionService
     $end_date = $dates['1'];
 
     $incomes = $this->db->query(
-      "SELECT incomes.amount, incomes.date_of_income, incomes.income_comment , incomes_category_assigned_to_users.name AS category_name
+      "SELECT incomes.id, incomes.amount, incomes.date_of_income, incomes.income_comment , incomes_category_assigned_to_users.name AS category_name
       FROM incomes 
       INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id=incomes_category_assigned_to_users.id
       WHERE incomes.user_id = :user_id AND incomes.date_of_income BETWEEN :start_date AND :end_date 
@@ -286,5 +286,88 @@ class TransactionService
       'paymentMethods' => $paymentMethods
     ];
     return $expensesAttributes;
+  }
+
+  public function getUserIncome(string $id)
+  {
+    return $this->db->query(
+      "SELECT incomes.id, incomes.amount, DATE_FORMAT(date_of_income, '%Y-%m-%d') AS formatted_date, incomes_category_assigned_to_users.name, incomes.income_comment 
+      FROM incomes 
+      INNER JOIN incomes_category_assigned_to_users ON incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id
+      WHERE incomes.id = :id AND incomes.user_id = :user_id",
+      [
+        'id' => $id,
+        'user_id' => $_SESSION['user']
+      ]
+
+      )->find();
+  }
+
+  public function updateIncome(array $formData, int $id)
+  {
+    $income_category_id = $this->getIncomeCategoryId($formData);
+    
+
+    $this->db->query(
+      "UPDATE incomes
+      SET           
+      income_category_assigned_to_user_id = :income_category_id,
+      amount = :income_amount,
+      date_of_income = :income_date,
+      income_comment = :income_comment
+      WHERE id = :id AND user_id =:user_id",
+      [
+        'id' => $id,
+        'user_id' => $_SESSION['user'],
+        'income_category_id' => $income_category_id,
+        'income_amount' => $formData['income_amount'],
+        'income_date' => $formData['income_date'],
+        'income_comment' => $formData['income_comment']        
+      ]
+      
+      );
+  }
+
+  public function getUserExpense(string $id)
+  {
+    return $this->db->query(
+      "SELECT expenses.id, expenses.amount, DATE_FORMAT(date_of_expense, '%Y-%m-%d') AS formatted_date, expenses_category_assigned_to_users.name AS expense_category, payment_methods_assigned_to_users.name AS payment_method, expenses.expense_comment
+      FROM expenses 
+      INNER JOIN expenses_category_assigned_to_users ON expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id
+      INNER JOIN payment_methods_assigned_to_users ON payment_methods_assigned_to_users.id = expenses.payment_method_assigned_to_user_id
+      WHERE expenses.id = :id AND expenses.user_id = :user_id",
+      [
+        'id' => $id,
+        'user_id' => $_SESSION['user']
+      ]
+
+      )->find();
+  }
+
+  public function updateExpense(array $formData, int $id)
+  {
+    $expense_category_id = $this->getExpenseCategoryId($formData);
+
+    $payment_method_id = $this->getPaymentMethodId($formData);
+
+    $this->db->query(
+      "UPDATE expenses
+      SET
+      expense_category_assigned_to_user_id = :expense_category_id,
+      payment_method_assigned_to_user_id = :payment_method_id,
+      amount = :expense_amount,
+      date_of_expense = :expense_date,
+      expense_comment = :expense_comment
+      WHERE id = :id AND user_id = :user_id",
+      [
+        'id' => $id,
+        'user_id' => $_SESSION['user'],
+        'expense_category_id' => $expense_category_id,
+        'payment_method_id' => $payment_method_id,
+        'expense_amount' => $formData['expense_amount'],
+        'expense_date' => $formData['expense_date'],
+        'expense_comment' => $formData['expense_comment']
+      ]
+      );
   }
 }

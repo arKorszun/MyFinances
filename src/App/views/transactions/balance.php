@@ -238,8 +238,10 @@
                               <td> <?php echo e($income['amount']); ?> </td>
                               <td> <?php echo e($income['category_name']); ?> </td>
                               <td> <?php echo e($income['income_comment']); ?> </td>
-                              <td><img src="/assets/img/pencil.svg" alt="pencil icon"> <img src="/assets/img/trash.svg"
-                                  alt="trash icon"> </td>
+                              <td>
+                                <a href="/income/<?php echo e($income['id']) ?>"> <img src="/assets/img/pencil.svg"  alt="pencil icon"> </a>
+                                <a href="/" ><img src="/assets/img/trash.svg" alt="trash icon"></a> 
+                              </td>
                             </tr>
                           <?php endforeach; ?>
                         </tbody>
@@ -277,8 +279,10 @@
                               <td> <?php echo e($expense['payment_method']); ?> </td>
                               <td> <?php echo e($expense['expense_category_name']); ?> </td>
                               <td> <?php echo e($expense['expense_comment']); ?> </td>
-                              <td><img src="/assets/img/pencil.svg" alt="pencil icon"> <img src="/assets/img/trash.svg"
-                                  alt="trash icon"> </td>
+                              <td>
+                              <a href="/expense/<?php echo e($expense['id']) ?>"> <img src="/assets/img/pencil.svg"  alt="pencil icon"> </a>
+                              <a href="/" ><img src="/assets/img/trash.svg" alt="trash icon"></a>
+                                </td>
                             </tr>
                           <?php endforeach; ?>
                         </tbody>

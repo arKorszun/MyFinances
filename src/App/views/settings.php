@@ -78,131 +78,78 @@
                 <h1 class="h4 mt-2 fw-normal">Ustawienia</h1>
               </div>
             </div>
-            <?php
-
-            ?>
-            <form method="POST">
-              <?php include $this->resolve('partials/_csrf.php'); ?>
-              <div class="row justify-content-center ">
-                <div class="col-9 pt-4">
-                  <div class="input-group mb-3">
-                    <span class="input-group-text" id="amount"><img src="/assets/img/coin.svg" alt="coin icon"></span>
-                    <input value="<?php echo e($oldFormData['expense_amount'] ?? '') ?>" type="text" class="form-control input-place" placeholder="Kwota" aria-label="Kwota"
-                      name="expense_amount">
+            <div class="settings">
+              <div class="category_edition">
+                <div class="row mb-1 mt-3 text-center">
+                  <h6>Edytuj kategorie</h6>
+                </div>
+                <div class="row mb-2 text-center">
+                  <div class="col-4 d-grid gap-2">
+                    <button class="btn btn-success" type="button">Przychody</button>
+                  </div>
+                  <div class="col-4 d-grid gap-2">
+                    <button class="btn btn-warning" type="button">Wydatki</button>
+                  </div>
+                  <div class="col-4 d-grid gap-2">
+                    <button class="btn btn-primary" type="button">Metody płatności</button>
                   </div>
                 </div>
+
               </div>
-              <?php if (array_key_exists('expense_amount', $errors)) : ?>
-                <div class="col errors text-center ">
-                  <p style="color:red">
-                    <?php echo e($errors['expense_amount'][0]); ?>
-                  </p>
+              <div class="category_addition">
+                <div class="row mb-1 mt-3 text-center">
+                  <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                  <h6>Dodaj kategorie</h6>
                 </div>
-              <?php endif; ?>
-              <div class="row justify-content-center">
-                <div class="col-9">
-                  <div class="input-group mb-3">
-                    <span class="input-group-text" id="expense-date"><img src="/assets/img/calendar-event.svg"
-                        alt="calendar icon"></span>
-                    <input value="<?php echo e($oldFormData['expense_date'] ?? date("Y-m-d")) ?>" type="date" id="date" class="form-control input-place" aria-label="date"
-                      name="expense_date">
+                <div class="row mb-2 text-center">
+                  <div class="col-4 d-grid gap-2">
+                    <button class="btn btn-success" type="button">Przychody</button>
+                  </div>
+                  <div class="col-4 d-grid gap-2">
+                    <button class="btn btn-warning" type="button">Wydatki</button>
+                  </div>
+                  <div class="col-4 d-grid gap-2">
+                    <button class="btn btn-primary" type="button">Metody płatności</button>
                   </div>
                 </div>
+
               </div>
-              <?php if (array_key_exists('expense_date', $errors)) : ?>
-                <div class="col errors text-center ">
-                  <p style="color:red">
-                    <?php echo e($errors['expense_date'][0]); ?>
-                  </p>
+              <div class="category_deletion">
+                <div class="row mb-1 mt-3 text-center">
+                  <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                  <h6>Usuń kategorie</h6>
                 </div>
-              <?php endif; ?>
-              <div class="row justify-content-center">
-                <div class="col-9 ">
-                  <div class="input-group mb-3 flex-nowrap">
-                    <div class="input-group-prepend ">
-                      <label class="input-group-text" for="payment-method"><img src="/assets/img/wallet2.svg"
-                          alt="wallet icon"></label>
-                    </div>
-                    <select class="custom-select " id="payment-method" name="payment_method">
-                      <option selected>Sposób płatności</option>
-                      <?php 
-                      extract($expensesAttributes);
-                      foreach ($paymentMethods as $method) : ?>
-
-                        <option value="<?php echo e($method['payment_methode']); ?>"><?php echo e($method['payment_methode']); ?></option>
-
-                      <?php endforeach; ?>
-                      
-                    </select>
+                <div class="row mb-2 text-center">
+                  <div class="col-4 d-grid gap-2">
+                    <button class="btn btn-success" type="button">Przychody</button>
+                  </div>
+                  <div class="col-4 d-grid gap-2">
+                    <button class="btn btn-warning" type="button">Wydatki</button>
+                  </div>
+                  <div class="col-4 d-grid gap-2">
+                    <button class="btn btn-primary" type="button">Metody płatności</button>
                   </div>
                 </div>
+
               </div>
-              <?php if (array_key_exists('payment_method', $errors)) : ?>
-                <div class="col errors text-center ">
-                  <p style="color:red">
-                    <?php echo e($errors['payment_method'][0]); ?>
-                  </p>
+              <div class="user_settings">
+                <div class="row mb-1 mt-3 text-center">
+                  <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                  <h6>Ustawienia użytkownika</h6>
                 </div>
-              <?php endif; ?>
-              <div class="row justify-content-center">
-                <div class="col-9 ">
-                  <div class="input-group mb-3 flex-nowrap">
-                    <div class="input-group-prepend ">
-                      <label class="input-group-text  " for="expense-category"><img src="/assets/img/book-half.svg"
-                          alt="book icon"></label>
-                    </div>
-                    <select class="custom-select " id="expense-category" name="expense_category">
-                      <option selected>Kategoria wydatku</option>
-                      <?php foreach ($expensesCategories as $category) : ?>
-
-                        <option value="<?php echo e($category['category_name']); ?>"><?php echo e($category['category_name']); ?></option>
-
-                      <?php endforeach; ?>
-
-                    </select>
-                  </div>
+                <div class="d-grid gap-2 col-8 mx-auto">
+                  <button class="btn btn-info" type="button">Edytuj swoje dane</button>
+                  <button class="btn btn-danger" type="button">Usuń konto</button>
                 </div>
+
+
               </div>
-              <?php if (array_key_exists('expense_category', $errors)) : ?>
-                <div class="col errors text-center ">
-                  <p style="color:red">
-                    <?php echo e($errors['expense_category'][0]); ?>
-                  </p>
-                </div>
-              <?php endif; ?>
-              <div class="row justify-content-center">
-                <div class="col-9 ">
-                  <div class="input-group mb-3">
-                    <span class="input-group-text " id="coment"><img src="/assets/img/pencil.svg" alt="pencil icon"
-                        alt="pencil icon"></span>
-                    <input value="<?php echo e($oldFormData['expense_comment'] ?? '') ?>" type="text" class="form-control input-place" placeholder="Komentarz (opcjonalnie)"
-                      aria-label="coment" name="expense_comment">
-                  </div>
-                </div>
-              </div>
-              <?php if (array_key_exists('expense_comment', $errors)) : ?>
-                <div class="col errors text-center ">
-                  <p style="color:red">
-                    <?php echo e($errors['expense_comment'][0]); ?>
-                  </p>
-                </div>
-              <?php endif; ?>
-              <div class="row">
-                <div class="col-3"></div>
-                <div class="col-3 pb-3 text-center">
-                  <button type="submit" class="btn btn-primary"
-                    style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: 2rem; --bs-btn-font-size: 1.2rem;">Dodaj
-                  </button>
 
-                </div>
-                <div class="col-3 pb-3 text-center">
-                  <button type="button" class="btn btn-primary" id="cancelbtn" href="./addExpense.php"
-                    style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: 2rem; --bs-btn-font-size: 1.2rem;">Anuluj
-                  </button>
 
-                </div>
-            </form>
-            <div class="col-3"></div>
+            </div>
+
+
+
           </div>
         </div>
       </div>
