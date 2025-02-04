@@ -106,5 +106,12 @@ class ValidatorService
       'new_expense_name' => ['required','length:2,50']
     ]);
   }
+
+  public function validatePaymentMethod(array $formData)
+  {
+    $this->validator->validate($formData, [
+      'new_payment_name' => ['required','length:2,50']
+    ]);
+  }
   
 }
