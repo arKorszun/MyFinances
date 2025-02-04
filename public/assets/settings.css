@@ -143,10 +143,6 @@ ul{
   }
 }
 
-.btn:hover{
-  background-color: rgb(69, 152, 235);
-}
-
 .logout:hover{
   background-color: rgb(235, 89, 89);
 }
@@ -174,6 +170,10 @@ ul{
 
 .input-group-text{
   height: 41px;
+}
+
+.blueHover:hover {
+  background-color: rgb(69, 152, 235);
 }
 
 #cancelbtn{

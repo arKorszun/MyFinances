@@ -212,7 +212,7 @@ class TransactionService
   public function getUserIncomesCategories()
   {
     $incomesCategories = $this->db->query(
-      "SELECT incomes_category_assigned_to_users.name AS category_name  FROM incomes_category_assigned_to_users WHERE incomes_category_assigned_to_users.user_id = :user_id",
+      "SELECT incomes_category_assigned_to_users.name AS category_name, id  FROM incomes_category_assigned_to_users WHERE incomes_category_assigned_to_users.user_id = :user_id",
       [
         'user_id' => $_SESSION['user'],
       ]
@@ -367,6 +367,28 @@ class TransactionService
         'expense_amount' => $formData['expense_amount'],
         'expense_date' => $formData['expense_date'],
         'expense_comment' => $formData['expense_comment']
+      ]
+      );
+  }
+
+  public function deleteIncome(int $id)
+  {
+    $this->db->query(
+      "DELETE FROM incomes WHERE id = :id AND user_id = :user_id",
+      [
+        'id' => $id,
+        'user_id' => $_SESSION['user']
+      ]
+      );
+  }
+
+  public function deleteExpense(int $id)
+  {
+    $this->db->query(
+      "DELETE FROM expenses WHERE id = :id AND user_id = :user_id",
+      [
+        'id' => $id,
+        'user_id' => $_SESSION['user']
       ]
       );
   }

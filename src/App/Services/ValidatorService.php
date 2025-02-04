@@ -92,13 +92,19 @@ class ValidatorService
 
     ]);
   }
-  /*public function validateBalanceDates(array $formData) 
-  {
-    $endDate = $formData['custom_date_end'];
 
-    $this->validator->validate($formData,[
-      'custom_date_start' => ['dateMax', 'dateRange:$endDate'],
-      'custom_date_end' => []
+  public function validateIncomeCategory(array $formData)
+  {
+    $this->validator->validate($formData, [
+      'new_income_name' => ['required','length:2,50']
     ]);
-  }*/
+  }
+
+  public function validateExpenseCategory(array $formData)
+  {
+    $this->validator->validate($formData, [
+      'new_expense_name' => ['required','length:2,50']
+    ]);
+  }
+  
 }

@@ -85,14 +85,11 @@ class TransactionController
       $params['income']
     );
 
-
-
     $incomesCategories = $this->transactionService->getUserIncomesCategories();
 
     if (!$income) {
       redirectTo('/welcome');
     }
-
 
     echo $this->view->render('transactions/editIncome.php', [
       'income' => $income,
@@ -160,5 +157,17 @@ class TransactionController
 
     redirectTo('/balance');
 
+  }
+
+  public function deleteIncome(array $params)
+  {
+    $this->transactionService->deleteIncome((int) $params['income']);
+    redirectTo('/balance');
+  }
+
+  public function deleteExpense(array $params)
+  {
+    $this->transactionService->deleteExpense((int) $params['expense']);
+    redirectTo('/balance');
   }
 }

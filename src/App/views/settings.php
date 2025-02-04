@@ -42,19 +42,19 @@
                     alt="house icon">Strona Główna</a>
               </li>
               <li class="nav-item">
-                <a role="button" href="/addIncome" class="btn btn-outline-secondary px-3"><img src="/assets/img/coin.svg" alt="coin icon">Dodaj
+                <a role="button" href="/addIncome" class="btn btn-outline-secondary px-3 blueHover"><img src="/assets/img/coin.svg" alt="coin icon">Dodaj
                   Przychód</a>
               </li>
               <li class="nav-item">
-                <a role="button" href="/addExpense" class="btn btn-outline-secondary px-3"><img src="/assets/img/cart-plus.svg"
+                <a role="button" href="/addExpense" class="btn btn-outline-secondary px-3 blueHover"><img src="/assets/img/cart-plus.svg"
                     alt="cart icon">Dodaj Wydatek</a>
               </li>
               <li class="nav-item">
-                <a role="button" href="/balance" class="btn btn-outline-secondary px-3"><img src="/assets/img/clipboard-data.svg"
+                <a role="button" href="/balance" class="btn btn-outline-secondary px-3 blueHover"><img src="/assets/img/clipboard-data.svg"
                     alt="clipbord icon">Przeglądaj Bilans</a>
               </li>
               <li class="nav-item">
-                <a role="button" href="/settings" class="btn btn-outline-secondary px-3"><img src="/assets/img/tools.svg"
+                <a role="button" href="/settings" class="btn btn-outline-secondary px-3 blueHover"><img src="/assets/img/tools.svg"
                     alt="tools icon">Ustawienia</a>
               </li>
               <li class="nav-item">
@@ -68,6 +68,132 @@
     </nav>
 
     <article>
+      <!-- modal-income-edition start-->
+      <div class="modal  p-4 py-md-5" tabindex="-1" id="editIncomeCategory" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-bottom-0">
+              <h1 class="modal-title text-center fs-5">Edycja kategori przychodu</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-0">
+              <p>Wybierz kategorię którą chcesz edytować i podaj nową nazwę</p>
+            </div>
+            <form action="/edit/editIncomeCategory" method="get">
+              <?php include $this->resolve("partials/_csrf.php"); ?>
+              <div class="modal-body py-0">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="" aria-label="category_name" name="new_income_name">
+                  <button type="submit" class="btn btn-outline-success" id="button_inChange">Zatwierdź</button>
+                </div>
+              </div>
+              <div class="modal-body py-0">
+                <select class="form-select mb-3" name="chosen_income_category">
+                  <option selected>Wybierz Kategorię</option>
+                  <?php
+                  foreach ($incomeCategories as $incomeCategory) :
+                  ?>
+                    <option value="<?php echo e($incomeCategory['category_name']); ?>"><?php echo e($incomeCategory['category_name']); ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <?php if (array_key_exists('new_income_name', $errors)) : ?>
+                  <div class="col errors text-center ">
+                    <p style="color:red">
+                      <?php echo e($errors['new_income_name'][0]); ?>
+                    </p>
+                  </div>
+                <?php endif; ?>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>      
+      <!-- modal-income-edition end-->
+
+      <!-- modal-expense-edition start-->
+      <div class="modal  p-4 py-md-5" tabindex="-1" id="editExpenseCategory" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-bottom-0">
+              <h1 class="modal-title text-center fs-5">Edycja kategori wydatku</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-0">
+              <p>Wybierz kategorię którą chcesz edytować i podaj nową nazwę</p>
+            </div>
+            <form action="/edit/editExpenseCategory" method="get">
+              <?php include $this->resolve("partials/_csrf.php"); ?>
+              <div class="modal-body py-0">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="" aria-label="category_name" name="new_expense_name">
+                  <button type="submit" class="btn btn-outline-success" id="button_exChange">Zatwierdź</button>
+                </div>
+              </div>
+              <div class="modal-body py-0">
+                <select class="form-select mb-3" name="chosen_expense_category">
+                  <option selected>Wybierz Kategorię</option>
+                  <?php
+                  foreach ($expenseCategories as $expenseCategory) :
+                  ?>
+                    <option value="<?php echo e($expenseCategory['category_name']); ?>"><?php echo e($expenseCategory['category_name']); ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <?php if (array_key_exists('new_expense_name', $errors)) : ?>
+                  <div class="col errors text-center ">
+                    <p style="color:red">
+                      <?php echo e($errors['new_expense_name'][0]); ?>
+                    </p>
+                  </div>
+                <?php endif; ?>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>      
+      <!-- modal-expense-edition end-->
+
+      <!-- modal-payment-edition start-->
+      <div class="modal  p-4 py-md-5" tabindex="-1" id="editPaymentMethods" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-bottom-0">
+              <h1 class="modal-title text-center fs-5">Edycja metod płatności</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-0">
+              <p>Wybierz metodę płatności którą chcesz edytować i podaj nową nazwę</p>
+            </div>
+            <form action="/edit/editPaymentMethod" method="get">
+              <?php include $this->resolve("partials/_csrf.php"); ?>
+              <div class="modal-body py-0">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="" aria-label="category_name" name="new_payment_name">
+                  <button type="submit" class="btn btn-outline-success" id="button_exChange">Zatwierdź</button>
+                </div>
+              </div>
+              <div class="modal-body py-0">
+                <select class="form-select mb-3" name="chosen_payment_method">
+                  <option selected>Wybierz metodę do edycji</option>
+                  <?php
+                  foreach ($paymentMethods as $paymentMethod) :
+                  ?>
+                    <option value="<?php echo e($paymentMethod['payment_methode']); ?>"><?php echo e($paymentMethod['payment_methode']); ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <?php if (array_key_exists('new_payment_name', $errors)) : ?>
+                  <div class="col errors text-center ">
+                    <p style="color:red">
+                      <?php echo e($errors['new_payment_name'][0]); ?>
+                    </p>
+                  </div>
+                <?php endif; ?>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>      
+      <!-- modal-payment-edition end-->
+
 
 
       <div>
@@ -85,13 +211,13 @@
                 </div>
                 <div class="row mb-2 text-center">
                   <div class="col-4 d-grid gap-2">
-                    <button class="btn btn-success" type="button">Przychody</button>
+                    <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#editIncomeCategory">Przychody</button>
                   </div>
                   <div class="col-4 d-grid gap-2">
-                    <button class="btn btn-warning" type="button">Wydatki</button>
+                    <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editExpenseCategory">Wydatki</button>
                   </div>
                   <div class="col-4 d-grid gap-2">
-                    <button class="btn btn-primary" type="button">Metody płatności</button>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editPaymentMethods">Metody płatności</button>
                   </div>
                 </div>
 

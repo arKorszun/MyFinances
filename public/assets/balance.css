@@ -86,11 +86,19 @@ ul {
   padding-bottom: 4px;
 }
 
-.btn:hover {
+.blueHover:hover {
   background-color: rgb(69, 152, 235);
 }
 
 .logout:hover {
+  background-color: rgb(235, 89, 89);
+}
+
+#edit:hover {
+  background-color: rgb(235, 172, 89);
+}
+
+#delete:hover {
   background-color: rgb(235, 89, 89);
 }
 

@@ -22,7 +22,6 @@
 
 <body>
   <main>
-
     <nav class="navbar navbar-expand-md " aria-label="navbar">
       <div class="container-fluid main-navbar align-items-start ">
         <div class="navbar-brand col-4 px-5 d-flex">
@@ -35,9 +34,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
         </div>
-
         <div class="col-8 ">
-
           <div class="collapse navbar-collapse" id="mainNavbar">
             <ul class="d-grid gap-2 d-flex navigation ">
               <li class="nav-item">
@@ -45,20 +42,20 @@
                     src="/assets/img/house-fill.svg" alt="house icon">Strona Główna</a>
               </li>
               <li class="nav-item">
-                <a role="button" href="/addIncome" class="btn btn-outline-secondary px-3"><img
+                <a role="button" href="/addIncome" class="btn btn-outline-secondary px-3 blueHover"><img
                     src="/assets/img/coin.svg" alt="coin icon">Dodaj
                   Przychód</a>
               </li>
               <li class="nav-item">
-                <a role="button" href="/addExpense" class="btn btn-outline-secondary px-3"><img
+                <a role="button" href="/addExpense" class="btn btn-outline-secondary px-3 blueHover"><img
                     src="/assets/img/cart-plus.svg" alt="cart icon">Dodaj Wydatek</a>
               </li>
               <li class="nav-item">
-                <a role="button" href="/balance" class="btn btn-outline-secondary px-3"><img
+                <a role="button" href="/balance" class="btn btn-outline-secondary px-3 blueHover"><img
                     src="/assets/img/clipboard-data.svg" alt="clipbord icon">Przeglądaj Bilans</a>
               </li>
               <li class="nav-item">
-                <a role="button" href="/settings" class="btn btn-outline-secondary px-3"><img src="/assets/img/tools.svg"
+                <a role="button" href="/settings" class="btn btn-outline-secondary px-3 blueHover"><img src="/assets/img/tools.svg"
                     alt="tools icon">Ustawienia</a>
               </li>
               <li class="nav-item">
@@ -66,19 +63,14 @@
                     src="/assets/img/box-arrow-right.svg" alt="logout icon">Wyloguj</a>
               </li>
             </ul>
-
           </div>
-
-
         </div>
       </div>
-
     </nav>
-
     <section class="date-modal">
       <div class="modal fade bd-modal-md" tabindex="-1" role="dialog" aria-labelledby="date-modal" aria-hidden="true">
         <div class="modal-dialog modal-md">
-          <form method="GET">            
+          <form method="GET">
             <div class="modal-content px-4 py-2">
               <h3 class="modal-header">Wybierz zakres dat</h3>
               <div class="input-group mb-3">
@@ -108,7 +100,7 @@
                 aria-expanded="false">
                 Wybierz Okres
               </button>
-              <form method="GET">                
+              <form method="GET">
                 <ul class="dropdown-menu">
                   <li><button class="dropdown-item" type="submit" name="current_month">Bieżący miesiąc</button></li>
                   <li><button class="dropdown-item" name="previous_month" type="submit">Poprzedni miesiąc</button></li>
@@ -148,7 +140,7 @@
                           foreach ($incomesCatSum as $incomesSum) :
                           ?>
                             <tr>
-                              <th scope="row"><?php 
+                              <th scope="row"><?php
                                               echo $row;
                                               $row++; ?></th>
                               <td> <?php echo e($incomesSum['name']); ?> </td>
@@ -191,7 +183,7 @@
                           foreach ($expensesCatSum as $expensesSum) :
                           ?>
                             <tr>
-                              <th scope="row"><?php 
+                              <th scope="row"><?php
                                               echo $row;
                                               $row++; ?></th>
                               <td> <?php echo e($expensesSum['name']); ?> </td>
@@ -228,10 +220,10 @@
                         </thead>
                         <tbody>
                           <?php
-                          $row = 1; 
+                          $row = 1;
                           foreach ($incomes as $income) : ?>
                             <tr>
-                              <th scope="row"><?php 
+                              <th scope="row"><?php
                                               echo $row;
                                               $row++; ?></th>
                               <td> <?php echo e($income['date_of_income']); ?> </td>
@@ -239,14 +231,25 @@
                               <td> <?php echo e($income['category_name']); ?> </td>
                               <td> <?php echo e($income['income_comment']); ?> </td>
                               <td>
-                                <a href="/income/<?php echo e($income['id']) ?>"> <img src="/assets/img/pencil.svg"  alt="pencil icon"> </a>
-                                <a href="/" ><img src="/assets/img/trash.svg" alt="trash icon"></a> 
+                                <div class="row">
+                                  <div class="col-3">
+                                    <button type="button" class="btn btn-outline-warning p-2 bg-emerald-50 text-xs text-emerald-900  transition rounded" id="edit">
+                                      <a href="/income/<?php echo e($income['id']); ?>"> <img src="/assets/img/pencil.svg" alt="pencil icon"> </a></button>
+                                  </div>
+                                  <div class="col-3">
+                                    <form action="/income/<?php echo e($income['id']); ?>" method="POST">
+                                      <input type="hidden" name="_METHOD" value="DELETE" />
+                                      <?php include $this->resolve("partials/_csrf.php"); ?>
+                                      <button type="submit" class="btn btn-outline-danger p-2 bg-emerald-50 text-xs text-emerald-900  transition rounded" id="delete"><img src="/assets/img/trash.svg" alt="trash icon"></button>
+                                    </form>
+                                  </div>
+                                </div>
                               </td>
                             </tr>
                           <?php endforeach; ?>
                         </tbody>
                       </table>
-                      
+
                     </div>
                   </div>
                   <div class="col-md-12">
@@ -267,11 +270,11 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <?php 
+                          <?php
                           $row = 1;
                           foreach ($expenses as $expense) : ?>
                             <tr>
-                              <th scope="row"><?php 
+                              <th scope="row"><?php
                                               echo $row;
                                               $row++; ?></th>
                               <td> <?php echo e($expense['date_of_expense']); ?> </td>
@@ -280,9 +283,20 @@
                               <td> <?php echo e($expense['expense_category_name']); ?> </td>
                               <td> <?php echo e($expense['expense_comment']); ?> </td>
                               <td>
-                              <a href="/expense/<?php echo e($expense['id']) ?>"> <img src="/assets/img/pencil.svg"  alt="pencil icon"> </a>
-                              <a href="/" ><img src="/assets/img/trash.svg" alt="trash icon"></a>
-                                </td>
+                                <div class="row">
+                                  <div class="col-3">
+                                    <button type="button" class="btn btn-outline-warning p-2 bg-emerald-50 text-xs text-emerald-900  transition rounded" id="edit">
+                                      <a href="/expense/<?php echo e($expense['id']); ?>"> <img src="/assets/img/pencil.svg" alt="pencil icon"> </a></button>
+                                  </div>
+                                  <div class="col-3">
+                                    <form action="/expense/<?php echo e($expense['id']); ?>" method="POST">
+                                      <input type="hidden" name="_METHOD" value="DELETE" />
+                                      <?php include $this->resolve("partials/_csrf.php"); ?>
+                                      <button type="submit" class="btn btn-outline-danger p-2 bg-emerald-50 text-xs text-emerald-900  transition rounded" id="delete"><img src="/assets/img/trash.svg" alt="trash icon"></button>
+                                    </form>
+                                  </div>
+                                </div>
+                              </td>
                             </tr>
                           <?php endforeach; ?>
                         </tbody>
@@ -298,22 +312,22 @@
                 <div class="col ">
 
                   <h3 id="balance-header">Bilans za wskazany okres wynosi:
-                    <?php                                        
-                      $summar_balance = $total_incomes_sum - $total_expenses_sum;
-                      if ($summar_balance > 0) {
-                        echo '<span class="balance-difference">' . $summar_balance .
-                          ' PLN</span> </h3>';
-                        echo '<p class="balance-feedback" style="color:green">Gratulacje. Świetnie zarządzasz finansami!</p>';
-                      } else if($summar_balance < 0){
-                        echo '<span class="balance-difference" style="color:red">' . $summar_balance .
-                          ' PLN</span> </h3>';
-                        echo '<p class="balance-feedback" style="color:red">Uważaj! Twoje wydatki przerosły dochody! </p>';
-                      } else {
-                        echo '<span class="balance-difference">' . $summar_balance .
-                          ' PLN</span> </h3>';
-                        echo '<p class="balance-feedback" > Brak transakcji we wskazanym okresie </p>';
-                      }
-                    
+                    <?php
+                    $summar_balance = $total_incomes_sum - $total_expenses_sum;
+                    if ($summar_balance > 0) {
+                      echo '<span class="balance-difference">' . $summar_balance .
+                        ' PLN</span> </h3>';
+                      echo '<p class="balance-feedback" style="color:green">Gratulacje. Świetnie zarządzasz finansami!</p>';
+                    } else if ($summar_balance < 0) {
+                      echo '<span class="balance-difference" style="color:red">' . $summar_balance .
+                        ' PLN</span> </h3>';
+                      echo '<p class="balance-feedback" style="color:red">Uważaj! Twoje wydatki przerosły dochody! </p>';
+                    } else {
+                      echo '<span class="balance-difference">' . $summar_balance .
+                        ' PLN</span> </h3>';
+                      echo '<p class="balance-feedback" > Brak transakcji we wskazanym okresie </p>';
+                    }
+
                     ?>
                 </div>
               </div>
@@ -331,19 +345,19 @@
                     type: 'pie',
                     data: {
                       labels: [
-                        <?php                        
-                          foreach ($expensesCatSum as $category) {
-                            echo "'" . $category['name'] . "',";
-                          }                        
+                        <?php
+                        foreach ($expensesCatSum as $category) {
+                          echo "'" . $category['name'] . "',";
+                        }
                         ?>
                       ],
                       datasets: [{
                         label: 'Kwota (PLN)',
                         data: [
-                          <?php                          
-                            foreach ($expensesCatSum as $sum) {
-                              echo "'" . $sum['category_sum'] . "',";
-                            }                          
+                          <?php
+                          foreach ($expensesCatSum as $sum) {
+                            echo "'" . $sum['category_sum'] . "',";
+                          }
                           ?>
                         ],
                         borderWidth: 1
