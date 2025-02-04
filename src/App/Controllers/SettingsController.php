@@ -57,6 +57,31 @@ class SettingsController
     redirectTo('/settings');
   }
 
+  public function addIncomeCategory()
+  {
+    $this->validatorService->validateIncomeCategory($_GET);
+    $this->settingsService->addIncomeCategory($_GET);
+    unset($_GET);
+    redirectTo('/settings');
+  }
+
+  public function addExpenseCategory()
+  {
+    $this->validatorService->validateExpenseCategory($_GET);
+    $this->settingsService->addExpenseCategory($_GET);
+    unset($_GET);
+    redirectTo('/settings');
+  }
+
+  public function addPaymentMethod()
+  {
+    $this->validatorService->validatePaymentMethod($_GET);
+    
+    $this->settingsService->addPaymentMethod($_GET);
+    unset($_GET);
+    redirectTo('/settings');
+  }
+
   
 
   

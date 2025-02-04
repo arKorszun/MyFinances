@@ -38,9 +38,18 @@ function registerRoutes(App $app)
   $app->get('/balance', [TransactionController::class, 'balanceView'])->add(AuthRequiredMiddleware::class);
 
   $app->get('/settings', [SettingsController::class, 'settingsView'])->add(AuthRequiredMiddleware::class);
+
   $app->get('/edit/editIncomeCategory', [SettingsController::class, 'editIncomeCategory']);
   $app->get('/edit/editExpenseCategory', [SettingsController::class, 'editExpenseCategory']);
   $app->get('/edit/editPaymentMethod', [SettingsController::class, 'editPaymentMethod']);
+
+  $app->get('/add/addIncomeCategory', [SettingsController::class, 'addIncomeCategory']);
+  $app->get('/add/addExpenseCategory', [SettingsController::class, 'addExpenseCategory']);
+  $app->get('/add/addPaymentMethod', [SettingsController::class, 'addPaymentMethod']); 
+
+  $app->get('/delete/deleteIncomeCategory', [SettingsController::class, 'deleteIncomeCategory']);
+  $app->get('/delete/deleteExpenseCategory', [SettingsController::class, 'deleteExpenseCategory']);
+  $app->get('//delete/deletePaymentMethod', [SettingsController::class, 'deletePaymentMethod']);  
 
   $app->get('/income/{income}', [TransactionController::class, 'editIncomeView']);
   $app->get('/expense/{expense}', [TransactionController::class, 'editExpenseView']);
