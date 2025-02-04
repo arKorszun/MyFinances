@@ -13,7 +13,7 @@ class SettingsService
 
   public function editIncomeCategory(array $formData)
   {
-    
+
     $this->db->query(
       "UPDATE incomes_category_assigned_to_users
       SET
@@ -29,7 +29,7 @@ class SettingsService
 
   public function editExpenseCategory(array $formData)
   {
-    
+
     $this->db->query(
       "UPDATE expenses_category_assigned_to_users
       SET
@@ -45,7 +45,7 @@ class SettingsService
 
   public function editPaymentMethod(array $formData)
   {
-    
+
     $this->db->query(
       "UPDATE payment_methods_assigned_to_users
       SET
@@ -61,38 +61,72 @@ class SettingsService
 
   public function addIncomeCategory(array $formData)
   {
-    
+
     $this->db->query(
-      "INSERT INTO incomes_category_assigned_to_users VALUES(NULL, :user_id, :category_name)",           
+      "INSERT INTO incomes_category_assigned_to_users VALUES(NULL, :user_id, :category_name)",
       [
         'user_id' => $_SESSION['user'],
-        'category_name' => $formData['new_income_name']        
+        'category_name' => $formData['new_income_name']
       ]
     );
   }
 
   public function addExpenseCategory(array $formData)
   {
-    
+
     $this->db->query(
-      "INSERT INTO expenses_category_assigned_to_users VALUES(NULL, :user_id, :category_name)",           
+      "INSERT INTO expenses_category_assigned_to_users VALUES(NULL, :user_id, :category_name)",
       [
         'user_id' => $_SESSION['user'],
-        'category_name' => $formData['new_expense_name']        
+        'category_name' => $formData['new_expense_name']
       ]
     );
   }
 
   public function addPaymentMethod(array $formData)
-  {    
+  {
     $this->db->query(
-      "INSERT INTO payment_methods_assigned_to_users VALUES(NULL, :user_id, :name)",           
+      "INSERT INTO payment_methods_assigned_to_users VALUES(NULL, :user_id, :name)",
       [
         'user_id' => $_SESSION['user'],
-        'name' => $formData['new_payment_name']        
+        'name' => $formData['new_payment_name']
       ]
     );
   }
 
+  public function deleteIncomeCategory(array $formData)
+  {
+    $this->db->query(
+      "DELETE FROM incomes_category_assigned_to_users      
+      WHERE user_id = :user_id AND name= :category_name",
+      [
+        'user_id' => $_SESSION['user'],
+        'category_name' => $formData['chosen_income_category']
+      ]
+    );
+  }
 
+  public function deleteExpenseCategory(array $formData)
+  {
+    $this->db->query(
+      "DELETE FROM expenses_category_assigned_to_users      
+      WHERE user_id = :user_id AND name= :category_name",
+      [
+        'user_id' => $_SESSION['user'],
+        'category_name' => $formData['chosen_expense_category']
+      ]
+    );
+  }
+
+  public function deletePaymentMethod(array $formData)
+  {
+    $this->db->query(
+      "DELETE FROM payment_methods_assigned_to_users      
+      WHERE user_id = :user_id AND name= :category_name",
+      [
+        'user_id' => $_SESSION['user'],
+        'category_name' => $formData['chosen_payment_method']
+      ]
+    );
+  }
 }

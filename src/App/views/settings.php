@@ -325,7 +325,65 @@
           </div>
         </div>
       </div>
-      <!-- modal-income-edition end-->
+      <!-- modal-income-deletion end-->
+
+      <!-- modal-expense-deletion start-->
+      <div class="modal  p-4 py-md-5" tabindex="-1" id="deleteExpenseCategory" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-bottom-0">
+              <h2 class="modal-title text-center fs-5">Usuwanie kategorii wydatków</h2>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-0">
+              <p>Wybierz kategorię którą chcesz usunąć</p>
+            </div>
+            <form action="/delete/deleteExpenseCategory" method="get">              
+              <div class="input-group mb-3 px-3">
+                <select class="form-select" name="chosen_expense_category"  >
+                <option selected>Wybierz Kategorię</option>
+                  <?php
+                  foreach ($expenseCategories as $expenseCategory) :
+                  ?>
+                    <option value="<?php echo e($expenseCategory['category_name']); ?>"><?php echo e($expenseCategory['category_name']); ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <button type="submit" class="btn btn-outline-danger" type="button">Usuń</button>                
+              </div>              
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- modal-expense-deletion end-->
+
+      <!-- modal-payment-method-deletion start-->
+      <div class="modal  p-4 py-md-5" tabindex="-1" id="deletePaymentMethod" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-bottom-0">
+              <h2 class="modal-title text-center fs-5">Usuwanie metody płatności</h2>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-0">
+              <p>Wybierz metodę którą chcesz usunąć</p>
+            </div>
+            <form action="/delete/deletePaymentMethod" method="get">              
+              <div class="input-group mb-3 px-3">
+                <select class="form-select" name="chosen_payment_method"  >
+                <option selected>Wybierz metodę</option>
+                  <?php
+                  foreach ($paymentMethods as $paymentMethod) :
+                  ?>
+                    <option value="<?php echo e($paymentMethod['payment_methode']); ?>"><?php echo e($paymentMethod['payment_methode']); ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <button type="submit" class="btn btn-outline-danger" type="button">Usuń</button>                
+              </div>              
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- modal-payment-method-deletion end-->
 
 
       <div>

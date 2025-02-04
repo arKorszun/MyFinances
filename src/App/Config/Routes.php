@@ -49,7 +49,7 @@ function registerRoutes(App $app)
 
   $app->get('/delete/deleteIncomeCategory', [SettingsController::class, 'deleteIncomeCategory']);
   $app->get('/delete/deleteExpenseCategory', [SettingsController::class, 'deleteExpenseCategory']);
-  $app->get('//delete/deletePaymentMethod', [SettingsController::class, 'deletePaymentMethod']);  
+  $app->get('/delete/deletePaymentMethod', [SettingsController::class, 'deletePaymentMethod']);  
 
   $app->get('/income/{income}', [TransactionController::class, 'editIncomeView']);
   $app->get('/expense/{expense}', [TransactionController::class, 'editExpenseView']);

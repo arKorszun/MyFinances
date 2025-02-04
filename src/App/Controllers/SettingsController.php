@@ -14,23 +14,22 @@ class SettingsController
     private TemplateEngine $view,
     private SettingsService $settingsService,
     private ValidatorService $validatorService,
-    private TransactionService $transactionService) {}
+    private TransactionService $transactionService
+  ) {}
 
-  
+
 
   public function settingsView()
   {
     $incomeCategories = $this->transactionService->getUserIncomesCategories();
     $expenseCategories = $this->transactionService->getUserExpensesCategories();
     $paymentMethods = $this->transactionService->getUserPaymentMethods();
-    /*dd($paymentMethods);*/
 
     echo $this->view->render("/settings.php", [
       'incomeCategories' => $incomeCategories,
       'expenseCategories' => $expenseCategories,
       'paymentMethods' => $paymentMethods
-  ]);
-
+    ]);
   }
 
   public function editIncomeCategory()
@@ -76,13 +75,30 @@ class SettingsController
   public function addPaymentMethod()
   {
     $this->validatorService->validatePaymentMethod($_GET);
-    
+
     $this->settingsService->addPaymentMethod($_GET);
     unset($_GET);
     redirectTo('/settings');
   }
 
-  
+  public function deleteIncomeCategory()
+  {
+    $this->settingsService->deleteIncomeCategory($_GET);
+    unset($_GET);
+    redirectTo('/settings');
+  }
 
-  
+  public function deleteExpenseCategory()
+  {
+    $this->settingsService->deleteExpenseCategory($_GET);
+    unset($_GET);
+    redirectTo('/settings');
+  }
+
+  public function deletePaymentMethod()
+  {
+    $this->settingsService->deletePaymentMethod($_GET);
+    unset($_GET);
+    redirectTo('/settings');
+  }
 }
