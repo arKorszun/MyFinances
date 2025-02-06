@@ -163,43 +163,43 @@ class SettingsService
   public function deleteAllUserData()
   {
     $this->db->query(
-      "DELETE * FROM expenses      
+      "DELETE FROM expenses      
       WHERE user_id = :user_id",
       [
         'user_id' => $_SESSION['user']        
       ]
     );
     $this->db->query(
-      "DELETE * FROM expenses_category_assigned_to_users      
+      "DELETE FROM expenses_category_assigned_to_users      
       WHERE user_id = :user_id",
       [
         'user_id' => $_SESSION['user']        
       ]
     );
     $this->db->query(
-      "DELETE * FROM incomes      
+      "DELETE FROM incomes      
       WHERE user_id = :user_id",
       [
         'user_id' => $_SESSION['user']        
       ]
     );
     $this->db->query(
-      "DELETE * FROM incomes_category_assigned_to_users      
+      "DELETE FROM incomes_category_assigned_to_users      
       WHERE user_id = :user_id",
       [
         'user_id' => $_SESSION['user']        
       ]
     );
     $this->db->query(
-      "DELETE * FROM payment_methods_assigned_to_users      
+      "DELETE FROM payment_methods_assigned_to_users      
       WHERE user_id = :user_id",
       [
         'user_id' => $_SESSION['user']        
       ]
     );
     $this->db->query(
-      "DELETE * FROM users      
-      WHERE user_id = :user_id",
+      "DELETE FROM users      
+      WHERE id = :user_id",
       [
         'user_id' => $_SESSION['user']        
       ]

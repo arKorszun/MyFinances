@@ -164,6 +164,7 @@ class SettingsController
     } else {
       $this->settingsService->deleteAllUserData();
       $this->userService->logout();
+      redirectTo('/');
     }
   }
 }

@@ -45,6 +45,7 @@ class UserService
     $_SESSION['username'] = $formData['username'];
     $_SESSION['loginInfo'] = true;
 
+    $this->addDefaultCategories();
   }
 
   public function login(array $formData)
@@ -55,7 +56,7 @@ class UserService
 
     $passwordMatch = password_verify($formData['password'], $user['password'] ?? '');
 
-    if(!$user || !$passwordMatch){
+    if (!$user || !$passwordMatch) {
       throw new ValidationException(['password' => ['Nieprawidłowe dane logowania']]);
     }
 
@@ -71,5 +72,63 @@ class UserService
     unset($_SESSION['user']);
 
     session_regenerate_id();
+  }
+
+  public function addDefaultCategories()
+  {
+    $defIncomes = $this->getDefaultIncomeCategories();
+    $defExpenses = $this->getDefaultExpenseCategories();
+    $defPaymenMet = $this->getDefaultPaymentMethodes();
+
+    foreach ($defIncomes as $inc) {
+      $this->db->query(
+        "INSERT INTO incomes_category_assigned_to_users VALUES(NULL, :user_id, :name)",
+        [
+          'user_id' => $_SESSION['user'],
+          'name' => $inc['name']
+        ]
+      );
+    }
+
+    foreach ($defExpenses as $exp) {
+      $this->db->query(
+        "INSERT INTO expenses_category_assigned_to_users VALUES(NULL, :user_id, :name)",
+        [
+          'user_id' => $_SESSION['user'],
+          'name' => $exp['name']
+        ]
+      );
+    }
+
+    foreach ($defPaymenMet as $pay) {
+      $this->db->query(
+        "INSERT INTO payment_methods_assigned_to_users VALUES(NULL, :user_id, :name)",
+        [
+          'user_id' => $_SESSION['user'],
+          'name' => $pay['name']
+        ]
+      );
+    }
+  }
+
+  public function getDefaultIncomeCategories()
+  {
+    return $this->db->query(
+      "SELECT name FROM incomes_category_default"
+    )->findAll();
+  }
+
+  public function getDefaultExpenseCategories()
+  {
+    return $this->db->query(
+      "SELECT name FROM expenses_category_default"
+    )->findAll();
+  }
+
+  public function getDefaultPaymentMethodes()
+  {
+    return $this->db->query(
+      "SELECT name FROM payment_methods_default"
+    )->findAll();
   }
 }
