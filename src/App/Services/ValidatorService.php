@@ -114,4 +114,27 @@ class ValidatorService
     ]);
   }
   
+  public function validateEmail(array $formData)
+  {
+    $this->validator->validate($formData, [      
+      'email' => ['required', 'email']      
+    ]);
+  }
+
+  public function validateUsername(array $formData)
+  {
+    $this->validator->validate($formData, [      
+      'username' => ['required', 'length:2,20', 'alfanum']      
+    ]);
+  }
+
+  public function validatePassword(array $formData)
+  {
+    $this->validator->validate($formData, [      
+      'password' => ['required'],
+      'password2' => ['required', 'match:password']      
+    ]);
+  }
+
+
 }

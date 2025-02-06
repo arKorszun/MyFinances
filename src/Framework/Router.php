@@ -13,7 +13,7 @@ class Router
   {
     $path = $this->normalizePath($path);
 
-    $regexPath = preg_replace('#{[^/]+}#', '([^/]+)', $path );
+    $regexPath = preg_replace('#{[^/]+}#', '([^/]+)', $path);
 
     $this->routes[] = [
       'path' => $path,
@@ -29,7 +29,6 @@ class Router
     $path = trim($path, '/');
     $path = "/{$path}/";
     $path = preg_replace('#[/]{2,}#', '/', $path);
-
 
     return $path;
   }

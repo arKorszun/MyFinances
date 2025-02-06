@@ -309,18 +309,18 @@
             <div class="modal-body py-0">
               <p>Wybierz kategorię którą chcesz usunąć</p>
             </div>
-            <form action="/delete/deleteIncomeCategory" method="get">              
+            <form action="/delete/deleteIncomeCategory" method="get">
               <div class="input-group mb-3 px-3">
-                <select class="form-select" name="chosen_income_category"  >
-                <option selected>Wybierz Kategorię</option>
+                <select class="form-select" name="chosen_income_category">
+                  <option selected>Wybierz Kategorię</option>
                   <?php
                   foreach ($incomeCategories as $incomeCategory) :
                   ?>
                     <option value="<?php echo e($incomeCategory['category_name']); ?>"><?php echo e($incomeCategory['category_name']); ?></option>
                   <?php endforeach; ?>
                 </select>
-                <button type="submit" class="btn btn-outline-danger" type="button">Usuń</button>                
-              </div>              
+                <button type="submit" class="btn btn-outline-danger" type="button">Usuń</button>
+              </div>
             </form>
           </div>
         </div>
@@ -338,18 +338,18 @@
             <div class="modal-body py-0">
               <p>Wybierz kategorię którą chcesz usunąć</p>
             </div>
-            <form action="/delete/deleteExpenseCategory" method="get">              
+            <form action="/delete/deleteExpenseCategory" method="get">
               <div class="input-group mb-3 px-3">
-                <select class="form-select" name="chosen_expense_category"  >
-                <option selected>Wybierz Kategorię</option>
+                <select class="form-select" name="chosen_expense_category">
+                  <option selected>Wybierz Kategorię</option>
                   <?php
                   foreach ($expenseCategories as $expenseCategory) :
                   ?>
                     <option value="<?php echo e($expenseCategory['category_name']); ?>"><?php echo e($expenseCategory['category_name']); ?></option>
                   <?php endforeach; ?>
                 </select>
-                <button type="submit" class="btn btn-outline-danger" type="button">Usuń</button>                
-              </div>              
+                <button type="submit" class="btn btn-outline-danger" type="button">Usuń</button>
+              </div>
             </form>
           </div>
         </div>
@@ -367,23 +367,49 @@
             <div class="modal-body py-0">
               <p>Wybierz metodę którą chcesz usunąć</p>
             </div>
-            <form action="/delete/deletePaymentMethod" method="get">              
+            <form action="/delete/deletePaymentMethod" method="get">
               <div class="input-group mb-3 px-3">
-                <select class="form-select" name="chosen_payment_method"  >
-                <option selected>Wybierz metodę</option>
+                <select class="form-select" name="chosen_payment_method">
+                  <option selected>Wybierz metodę</option>
                   <?php
                   foreach ($paymentMethods as $paymentMethod) :
                   ?>
                     <option value="<?php echo e($paymentMethod['payment_methode']); ?>"><?php echo e($paymentMethod['payment_methode']); ?></option>
                   <?php endforeach; ?>
                 </select>
-                <button type="submit" class="btn btn-outline-danger" type="button">Usuń</button>                
-              </div>              
+                <button type="submit" class="btn btn-outline-danger" type="button">Usuń</button>
+              </div>
             </form>
           </div>
         </div>
       </div>
       <!-- modal-payment-method-deletion end-->
+
+      <!-- modal-delete user start-->
+      <div class="modal fade  p-4 py-md-5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="deleteUser" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-bottom-0">
+              <h2 class="modal-title text-center fs-5">Usuwanie konta użytkownika</h2>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-0">
+              <p>! UWAGA ten proces jest nieodwracalny, stracisz wszystkie swoje dane ! <br> Aby potwierdzić operacje wpisz hasło i zatwierdź</p>
+            </div>
+            <form action="/delete/deleteUser" method="get">
+              <?php include $this->resolve("partials/_csrf.php"); ?>
+              <div class="modal-body py-0">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="" aria-label="typed_password" name="typed_password">
+                  <button type="submit" class="btn btn-danger" id="button_inChange">Zatwierdź</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      </div>
+      <!-- modal-delete user end-->
 
 
       <div>
@@ -446,7 +472,6 @@
                     <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#deletePaymentMethod">Metody płatności</button>
                   </div>
                 </div>
-
               </div>
               <div class="user_settings">
                 <div class="row mb-1 mt-3 text-center">
@@ -454,9 +479,17 @@
                   <h6>Ustawienia użytkownika</h6>
                 </div>
                 <div class="d-grid gap-2 col-8 mx-auto">
-                  <button class="btn btn-info" type="button">Edytuj swoje dane</button>
-                  <button class="btn btn-danger" type="button">Usuń konto</button>
+                  <a href="/editUserData" role="button" class="btn btn-info">Edytuj swoje dane</a>
+                  <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteUser">Usuń konto</button>
+                  <?php if (array_key_exists('password', $errors)) : ?>
+                <div class="col errors text-center ">
+                  <p style="color:red">
+                    <?php echo e($errors['password'][0]); ?>
+                  </p>
                 </div>
+              <?php endif; ?>
+                </div>
+
 
 
               </div>

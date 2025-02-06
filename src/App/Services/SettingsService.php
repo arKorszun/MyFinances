@@ -129,4 +129,80 @@ class SettingsService
       ]
     );
   }
+
+  public function getUserData()
+  {
+   return $this->db->query(
+    "SELECT *
+    FROM users
+    WHERE id = :id",
+    [
+      'id' => $_SESSION['user']
+    ]
+    )->find(); 
+  }
+
+  public function editUserData(array $userData)
+  {
+    $this->db->query(
+      "UPDATE users
+      SET
+      username = :username,
+      password = :password,
+      email = :email
+      WHERE id = :id",
+      [
+        'username' => $userData['username'],
+        'password' => $userData['password'],
+        'email' => $userData['email'],
+        'id' => $_SESSION['user']
+      ]
+    );
+  }
+
+  public function deleteAllUserData()
+  {
+    $this->db->query(
+      "DELETE * FROM expenses      
+      WHERE user_id = :user_id",
+      [
+        'user_id' => $_SESSION['user']        
+      ]
+    );
+    $this->db->query(
+      "DELETE * FROM expenses_category_assigned_to_users      
+      WHERE user_id = :user_id",
+      [
+        'user_id' => $_SESSION['user']        
+      ]
+    );
+    $this->db->query(
+      "DELETE * FROM incomes      
+      WHERE user_id = :user_id",
+      [
+        'user_id' => $_SESSION['user']        
+      ]
+    );
+    $this->db->query(
+      "DELETE * FROM incomes_category_assigned_to_users      
+      WHERE user_id = :user_id",
+      [
+        'user_id' => $_SESSION['user']        
+      ]
+    );
+    $this->db->query(
+      "DELETE * FROM payment_methods_assigned_to_users      
+      WHERE user_id = :user_id",
+      [
+        'user_id' => $_SESSION['user']        
+      ]
+    );
+    $this->db->query(
+      "DELETE * FROM users      
+      WHERE user_id = :user_id",
+      [
+        'user_id' => $_SESSION['user']        
+      ]
+    );
+  }
 }

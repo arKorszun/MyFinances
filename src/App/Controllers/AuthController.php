@@ -11,7 +11,12 @@ class AuthController
 {
 
 
-  public function __construct(private TemplateEngine $view, private ValidatorService $validatorService, private UserService $userService) {}
+  public function __construct(
+    private TemplateEngine $view,
+    private ValidatorService $validatorService,
+    private UserService $userService
+  ) {}
+  
   public function registration()
   {
     echo $this->view->render("/registration.php");
@@ -48,6 +53,4 @@ class AuthController
 
     redirectTo('/');
   }
-
-
 }
